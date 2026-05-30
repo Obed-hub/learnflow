@@ -351,11 +351,25 @@ export default function App() {
       {/* If view is Landing or User is not logged in, render marketing dashboard */}
       {currentView === 'landing' || !currentUser ? (
         <LandingPage
-          onStartFree={() => handleOpenAuth('signup')}
-          onExplore={() => handleOpenAuth('login')}
-          onSelectCategory={(cat) => {
-            handleOpenAuth('signup');
-          }}
+          onStartFree={
+            currentUser
+              ? () => setCurrentView('home')
+              : () => handleOpenAuth('signup')
+          }
+          onExplore={
+            currentUser
+              ? () => setCurrentView('discover')
+              : () => handleOpenAuth('login')
+          }
+          onSelectCategory={
+            currentUser
+              ? (cat) => {
+                  setCurrentView('discover');
+                }
+              : (cat) => {
+                  handleOpenAuth('signup');
+                }
+          }
           isLoggedIn={!!currentUser}
           isDarkMode={isDarkMode}
         />
